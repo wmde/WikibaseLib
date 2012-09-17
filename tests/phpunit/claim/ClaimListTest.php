@@ -1,14 +1,14 @@
 <?php
 
 namespace Wikibase\Test;
-use Wikibase\ReferenceList as ReferenceList;
-use Wikibase\References as References;
-use Wikibase\Reference as Reference;
-use Wikibase\ReferenceObject as ReferenceObject;
+use Wikibase\ClaimList as ClaimList;
+use Wikibase\Claims as Claims;
+use Wikibase\Claim as Claim;
+use Wikibase\ClaimObject as ClaimObject;
 use Wikibase\Hashable as Hashable;
 
 /**
- * Tests for the Wikibase\ReferenceList class.
+ * Tests for the Wikibase\ClaimList class.
  *
  * @file
  * @since 0.1
@@ -18,15 +18,15 @@ use Wikibase\Hashable as Hashable;
  *
  * @group Wikibase
  * @group WikibaseLib
- * @group WikibaseReference
+ * @group WikibaseClaim
  *
  * @licence GNU GPL v2+
  * @author Jeroen De Dauw < jeroendedauw@gmail.com >
  */
-class ReferenceListTest extends \MediaWikiTestCase {
+class ClaimListTest extends \MediaWikiTestCase {
 
 	public function getInstanceClass() {
-		return '\Wikibase\ReferenceList';
+		return '\Wikibase\ClaimList';
 	}
 
 	public function instanceProvider() {
@@ -44,7 +44,7 @@ class ReferenceListTest extends \MediaWikiTestCase {
 	public function getElementInstances() {
 		$instances = array();
 
-		$instances[] = new ReferenceObject();
+		$instances[] = new \Wikibase\ClaimObject( new \Wikibase\InstanceOfSnak( 42 ) );
 
 		return $instances;
 	}
@@ -60,62 +60,62 @@ class ReferenceListTest extends \MediaWikiTestCase {
 	/**
 	 * @dataProvider instanceProvider
 	 *
-	 * @param \Wikibase\ReferenceList $array
+	 * @param \Wikibase\ClaimList $array
 	 */
-	public function testHasReference( ReferenceList $array ) {
+	public function testHasClaim( ClaimList $array ) {
 		/**
 		 * @var Hashable $hashable
 		 */
 		foreach ( iterator_to_array( $array ) as $hashable ) {
-			$this->assertTrue( $array->hasReference( $hashable ) );
-			$array->removeReference( $hashable );
-			$this->assertFalse( $array->hasReference( $hashable ) );
+			$this->assertTrue( $array->hasClaim( $hashable ) );
+			$array->removeClaim( $hashable );
+			$this->assertFalse( $array->hasClaim( $hashable ) );
 		}
 	}
 
 	/**
 	 * @dataProvider instanceProvider
 	 *
-	 * @param \Wikibase\ReferenceList $array
+	 * @param \Wikibase\ClaimList $array
 	 */
-	public function testRemoveReference( ReferenceList $array ) {
+	public function testRemoveClaim( ClaimList $array ) {
 		$elementCount = count( $array );
 
 		/**
 		 * @var Hashable $element
 		 */
 		foreach ( iterator_to_array( $array ) as $element ) {
-			$this->assertTrue( $array->hasReference( $element ) );
+			$this->assertTrue( $array->hasClaim( $element ) );
 
-			$array->removeReference( $element );
+			$array->removeClaim( $element );
 
-			$this->assertFalse( $array->hasReference( $element ) );
+			$this->assertFalse( $array->hasClaim( $element ) );
 			$this->assertEquals( --$elementCount, count( $array ) );
 		}
 
 		$elements = $this->getElementInstances();
 		$element = array_shift( $elements );
 
-		$array->removeReference( $element );
-		$array->removeReference( $element );
+		$array->removeClaim( $element );
+		$array->removeClaim( $element );
 	}
 
 	/**
 	 * @dataProvider instanceProvider
 	 *
-	 * @param \Wikibase\ReferenceList $array
+	 * @param \Wikibase\ClaimList $array
 	 */
-	public function testAddReference( ReferenceList $array ) {
+	public function testAddClaim( ClaimList $array ) {
 		$elementCount = count( $array );
 
 		$elements = $this->getElementInstances();
 		$element = array_shift( $elements );
 
-		if ( !$array->hasReference( $element ) ) {
+		if ( !$array->hasClaim( $element ) ) {
 			++$elementCount;
 		}
 
-		$array->addReference( $element );
+		$array->addClaim( $element );
 
 		$this->assertEquals( $elementCount, count( $array ) );
 	}
