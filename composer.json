@@ -1,5 +1,5 @@
 {
-	"name": "wikibase/lib",
+	"name": "mediawiki/wikibase-lib",
 	"type": "mediawiki-extension",
 	"description": "MediaWiki extension with utilities for Wikibase extensions",
 	"keywords": [
