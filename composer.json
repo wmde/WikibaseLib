@@ -45,9 +45,9 @@
 			"WikibaseLib.php"
 		],
 		"classmap": [
-			"lib/includes/",
-			"lib/WikibaseLib.hooks.php",
-			"lib/tests/phpunit/"
+			"includes/",
+			"WikibaseLib.hooks.php",
+			"tests/phpunit/"
 		]
 	}
 }
